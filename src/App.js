@@ -1,22 +1,34 @@
 import logo from './logo.svg';
 import './App.css';
+import { useFireproof } from 'use-fireproof';
 
 function App() {
+
+  const { useDocument } = useFireproof('xyz');
+
+  const [doc, setDoc, saveDoc] = useDocument(() => ({ message : 'Hello World', created : Date.now() }));
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    saveDoc();
+  };
+
+  const handleChange = (event) => {
+    setDoc({ ...doc, message: event.target.value });
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          <pre>
+            {JSON.stringify(doc, null, 2)}
+          </pre>
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <form onSubmit={handleSubmit}>
+          <input type="text" value={doc.message} onChange={handleChange} />
+          <button type="submit">Save</button>
+        </form>
       </header>
     </div>
   );
