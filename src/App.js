@@ -1,15 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
-import { useFireproof } from 'use-fireproof';
+import { useFireproof, useLiveQuery } from 'use-fireproof';
 
 function App() {
 
   const { useDocument } = useFireproof('xyz');
 
-  const [doc, setDoc, saveDoc] = useDocument(() => ({ message : 'Hello World', created : Date.now() }));
+  const [doc, setDoc, saveDoc] = useDocument(() => ({ message: 'Hello World', created: Date.now(), updated: Date.now() }));
+
+  const allDocs = useLiveQuery('_id')
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setDoc({ ...doc, updated: Date.now() });
     saveDoc();
   };
 
@@ -30,6 +33,11 @@ function App() {
           <button type="submit">Save</button>
         </form>
       </header>
+      <ul>
+        {allDocs.docs.map((doc) => (
+          <li key={doc._id}>{doc.message}</li>
+        ))}
+      </ul>
     </div>
   );
 }
