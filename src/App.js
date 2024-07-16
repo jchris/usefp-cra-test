@@ -8,7 +8,7 @@ function App() {
 
   const [doc, setDoc, saveDoc] = useDocument(() => ({ message: 'Hello World', created: Date.now(), updated: Date.now() }));
 
-  const allDocs = useLiveQuery('_id')
+  // const allDocs = useLiveQuery('_id')
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,9 +34,9 @@ function App() {
         </form>
       </header>
       <ul>
-        {allDocs.docs.map((doc) => (
+        {/* {allDocs.docs.map((doc) => (
           <li key={doc._id}>{doc.message}</li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );
