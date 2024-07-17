@@ -1,25 +1,23 @@
 import './App.css';
-import { useFireproof, useAllDocs } from 'use-fireproof';
+import { useFireproof } from 'use-fireproof';
 
 function App() {
 
-  const { useDocument, database } = useFireproof('xyz');
+  const { useDocument, useLiveQuery } = useFireproof('xyz');
 
-  const [doc, setDoc, saveDoc] = useDocument(() => ({ message: 'Hello World', created: Date.now(), updated: Date.now() }));
+  const [doc, setDoc, saveDoc] = useDocument(() => ({ message: '', created: Date.now(), updated: Date.now() }));
 
-  const allDocs = useAllDocs()
+  const allDocs = useLiveQuery('_id')
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    database.put({ ...doc, updated: Date.now() });
-    saveDoc();
+    saveDoc({ ...doc, updated: Date.now() });
+    setDoc()
   };
 
   const handleChange = (event) => {
     setDoc({ ...doc, message: event.target.value });
   };
-
-  console.log(allDocs)
 
   return (
     <div className="App">
