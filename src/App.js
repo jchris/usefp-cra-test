@@ -22,11 +22,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          <pre>
-            {JSON.stringify(doc, null, 2)}
-          </pre>
-        </p>
+        <pre>
+          {JSON.stringify(doc, null, 2)}
+        </pre>
         <form onSubmit={handleSubmit}>
           <input type="text" value={doc.message} onChange={handleChange} />
           <button type="submit">Save</button>
